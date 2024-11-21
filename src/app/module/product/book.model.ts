@@ -44,7 +44,7 @@ const bookSchema = new Schema<IBook>({
         type: Boolean,
         required: [true, 'In-stock status is required.'],
     },
-});
+}, { timestamps: true });
 
 
 

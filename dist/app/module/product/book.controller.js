@@ -29,6 +29,46 @@ const createBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
 });
+const getSingleBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const productId = req.params.productId;
+        const result = yield book_service_1.bookService.getSingleBooksDB(productId);
+        res.status(200).json({
+            success: true,
+            message: 'Books retrieved successfully',
+            data: result,
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Book retrieved Unsuccessfully, Something went wrong ',
+            error,
+        });
+    }
+});
+const updateBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const productId = req.params.productId;
+        const data = req.body;
+        console.log(productId, data);
+        const result = yield book_service_1.bookService.updateBookDB(productId, data);
+        res.status(200).json({
+            success: true,
+            message: 'Book updated successfully',
+            data: result,
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Book updated Unsuccessfully, Something went wrong ',
+            error,
+        });
+    }
+});
 exports.bookController = {
     createBook,
+    getSingleBook,
+    updateBook
 };
