@@ -10,4 +10,5 @@ const router = express_1.default.Router();
 router.get('/products/:productId', book_controller_1.bookController.getSingleBook);
 router.post('/create-product', book_controller_1.bookController.createBook);
 router.put('/products/:productId', book_controller_1.bookController.updateBook);
+router.delete('/products/:productId', book_controller_1.bookController.deleteBook);
 exports.bookRouter = router;

@@ -35,9 +35,14 @@ const updateBookDB = (id, data) => __awaiter(void 0, void 0, void 0, function* (
         } }, { new: true });
     return result;
 });
+const deleteBookDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = book_model_1.Book.findByIdAndDelete(id);
+    return result;
+});
 exports.bookService = {
     createBookBD,
     getAllBooksDB,
     getSingleBooksDB,
     updateBookDB,
+    deleteBookDB
 };
