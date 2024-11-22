@@ -12,20 +12,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.orderController = void 0;
 const order_service_1 = require("./order.service");
 const book_model_1 = require("../product/book.model");
+////// Create order 
 const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const order = req.body;
+        // Find the book by ID
         const book = yield book_model_1.Book.findById(order.product);
         console.log(book);
+        // If book is not found
         if (!book) {
-            res.status(500).json({
+            return res.status(404).json({
                 success: false,
                 message: 'Book product is not available',
             });
         }
         // Check inventory
         if (book.quantity < order.quantity) {
-            res.status(500).json({
+            return res.status(400).json({
                 success: false,
                 message: 'Insufficient stock available.',
             });
@@ -36,24 +39,26 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             book.inStock = false;
         }
         yield book.save();
+        // Create the order
         const result = yield order_service_1.orderService.createOrderDB(order);
-        if (result) {
-            res.status(200).json({
-                success: true,
-                message: 'Order Create Successfully',
-                data: result,
-            });
-        }
+        // Send success response
+        return res.status(201).json({
+            success: true,
+            message: 'Order created successfully',
+            data: result,
+        });
     }
     catch (error) {
-        res.status(500).json({
+        // Catch and handle any errors
+        return res.status(500).json({
             success: false,
-            message: 'Order Create Unsuccessfully',
+            message: 'Order creation failed',
             error,
             stack: error instanceof Error ? error.stack : undefined,
         });
     }
 });
+/////// total revenue count for all ordered products 
 const totalRevenue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield order_service_1.orderService.totalRevenueDB();

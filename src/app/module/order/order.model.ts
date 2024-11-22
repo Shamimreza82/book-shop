@@ -37,29 +37,29 @@ const orderSchema = new Schema<IOrder>(
   { timestamps: true }
 );
 
-orderSchema.pre('save', async function (next) {
-  const order = this;
-  console.log(order.product);
+// orderSchema.pre('save', async function (next) {
+//   const order = this;
+//   console.log(order.product);
 
-  const book = await Book.findById(order.product);
-  console.log(book);
-  if (!book) {
-    throw new Error('Product not found.');
-  }
+//   const book = await Book.findById(order.product);
+//   console.log(book);
+//   if (!book) {
+//     throw new Error('Product not found.');
+//   }
 
-  // Check inventory
-  if (book.quantity < order.quantity) {
-    throw new Error('Insufficient stock available.');
-  }
+//   // Check inventory
+//   if (book.quantity < order.quantity) {
+//     throw new Error('Insufficient stock available.');
+//   }
 
-  // Deduct quantity and update inStock
-  book.quantity -= order.quantity;
-  if (book.quantity === 0) {
-    book.inStock = false;
-  }
+//   // Deduct quantity and update inStock
+//   book.quantity -= order.quantity;
+//   if (book.quantity === 0) {
+//     book.inStock = false;
+//   }
 
-  await book.save();
-  next();
-});
+//   await book.save();
+//   next();
+// });
 
 export const Order = model<IOrder>('Order', orderSchema);
