@@ -25,7 +25,8 @@ const createBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(500).json({
             success: false,
             message: 'Book created Unsuccessfully, Something went wrong ',
-            error,
+            error: error instanceof Error ? error.message : 'Unknown error',
+            stack: error instanceof Error ? error.stack : undefined,
         });
     }
 });
@@ -43,7 +44,8 @@ const getSingleBook = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.status(500).json({
             success: false,
             message: 'Book retrieved Unsuccessfully, Something went wrong ',
-            error,
+            error: error instanceof Error ? error.message : 'Unknown error',
+            stack: error instanceof Error ? error.stack : undefined,
         });
     }
 });
@@ -63,7 +65,8 @@ const updateBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(500).json({
             success: false,
             message: 'Book updated Unsuccessfully, Something went wrong',
-            error,
+            error: error instanceof Error ? error.message : 'Unknown error',
+            stack: error instanceof Error ? error.stack : undefined,
         });
     }
 });
@@ -81,13 +84,15 @@ const deleteBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(500).json({
             success: false,
             message: 'Book deleted Unsuccessfully, Something went wrong ',
-            error,
+            error: error instanceof Error ? error.message : 'Unknown error',
+            stack: error instanceof Error ? error.stack : undefined,
         });
     }
 });
 const getAllBooks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { searchTerm } = req.query;
+        // const { searchTerm } = req.query;
+        const searchTerm = req.query.searchTerm || '';
         const result = yield book_service_1.bookService.getAllBooksDB(searchTerm);
         res.status(200).json({
             success: true,
@@ -99,7 +104,8 @@ const getAllBooks = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.status(500).json({
             success: false,
             message: 'Books retrieved Unsuccessfully',
-            error,
+            error: error instanceof Error ? error.message : 'Unknown error',
+            stack: error instanceof Error ? error.stack : undefined,
         });
     }
 });

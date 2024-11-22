@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { orderService } from './order.service';
-import { Order } from './order.model';
+
 
 
 const createOrder = async (req: Request, res: Response) => {
@@ -24,7 +24,8 @@ const createOrder = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'Order Create Unsuccessfully',
-      error,
+      error: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
     });
   }
 };
@@ -44,7 +45,8 @@ const totalRevenue = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'Revenue calculated Unsuccessfully',
-      error,
+      error: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
     });
   }
 };

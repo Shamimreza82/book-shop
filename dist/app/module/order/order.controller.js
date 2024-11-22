@@ -28,7 +28,8 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.status(500).json({
             success: false,
             message: 'Order Create Unsuccessfully',
-            error,
+            error: error instanceof Error ? error.message : 'Unknown error',
+            stack: error instanceof Error ? error.stack : undefined,
         });
     }
 });
@@ -45,7 +46,8 @@ const totalRevenue = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.status(500).json({
             success: false,
             message: 'Revenue calculated Unsuccessfully',
-            error,
+            error: error instanceof Error ? error.message : 'Unknown error',
+            stack: error instanceof Error ? error.stack : undefined,
         });
     }
 });
