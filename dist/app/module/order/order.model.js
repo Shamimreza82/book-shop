@@ -10,7 +10,7 @@ const orderSchema = new mongoose_1.Schema({
         lowercase: true,
         validate: {
             validator: function (value) {
-                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+                return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value);
             },
             message: 'Invalid email format.',
         },
@@ -24,7 +24,6 @@ const orderSchema = new mongoose_1.Schema({
     quantity: {
         type: Number,
         required: [true, 'Quantity is required.'],
-        // min: [1, 'Quantity must be at least 1.'],
         min: [0, 'Price must be a positive number.'],
     },
     totalPrice: {
@@ -33,24 +32,4 @@ const orderSchema = new mongoose_1.Schema({
         min: [0, 'Total price must be a positive value.'],
     },
 }, { timestamps: true });
-// orderSchema.pre('save', async function (next) {
-//   const order = this;
-//   console.log(order.product);
-//   const book = await Book.findById(order.product);
-//   console.log(book);
-//   if (!book) {
-//     throw new Error('Product not found.');
-//   }
-//   // Check inventory
-//   if (book.quantity < order.quantity) {
-//     throw new Error('Insufficient stock available.');
-//   }
-//   // Deduct quantity and update inStock
-//   book.quantity -= order.quantity;
-//   if (book.quantity === 0) {
-//     book.inStock = false;
-//   }
-//   await book.save();
-//   next();
-// });
 exports.Order = (0, mongoose_1.model)('Order', orderSchema);

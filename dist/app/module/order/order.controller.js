@@ -21,36 +21,36 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         console.log(book);
         // If book is not found
         if (!book) {
-            return res.status(404).json({
+            res.status(404).json({
                 success: false,
                 message: 'Book product is not available',
             });
+            return;
         }
         // Check inventory
         if (book.quantity < order.quantity) {
-            return res.status(400).json({
+            res.status(400).json({
                 success: false,
                 message: 'Insufficient stock available.',
+                stockAvailable: book.quantity
             });
+            return;
         }
-        // Deduct quantity and update inStock
-        book.quantity -= order.quantity;
+        // reduces the quantity of the book in stock by the quantity of the order:
+        book.quantity = book.quantity - order.quantity;
         if (book.quantity === 0) {
             book.inStock = false;
         }
         yield book.save();
-        // Create the order
         const result = yield order_service_1.orderService.createOrderDB(order);
-        // Send success response
-        return res.status(201).json({
+        res.status(201).json({
             success: true,
             message: 'Order created successfully',
             data: result,
         });
     }
     catch (error) {
-        // Catch and handle any errors
-        return res.status(500).json({
+        res.status(500).json({
             success: false,
             message: 'Order creation failed',
             error,
