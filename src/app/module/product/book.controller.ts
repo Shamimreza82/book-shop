@@ -14,9 +14,9 @@ const createBook = async (req: Request, res: Response) => {
     });
   } catch (error) {
     res.status(500).json({
+      message: 'Validation failed',
       success: false,
-      message: 'Book created Unsuccessfully, Something went wrong ',
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error,
       stack: error instanceof Error ? error.stack : undefined,
     });
   }
@@ -29,15 +29,15 @@ const getSingleBook = async (req: Request, res: Response) => {
     const result = await bookService.getSingleBooksDB(productId);
 
     res.status(200).json({
-      success: true,
       message: 'Books retrieved successfully',
+      success: true,
       data: result,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
       message: 'Book retrieved Unsuccessfully, Something went wrong ',
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error,
       stack: error instanceof Error ? error.stack : undefined,
     });
   }
@@ -51,15 +51,15 @@ const updateBook = async (req: Request, res: Response) => {
     const result = await bookService.updateBookDB(productId, data);
 
     res.status(200).json({
-      success: true,
       message: 'Book updated successfully',
+      success: true,
       data: result,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
       message: 'Book updated Unsuccessfully, Something went wrong',
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error,
       stack: error instanceof Error ? error.stack : undefined,
     });
   }
@@ -95,15 +95,15 @@ const getAllBooks = async (req: Request, res: Response) => {
     const result = await bookService.getAllBooksDB(searchTerm);
 
     res.status(200).json({
-      success: true,
       message: 'Books retrieved successfully',
+      success: true,
       data: result,
     });
   } catch (error) {
     res.status(500).json({
-      success: false,
       message: 'Books retrieved Unsuccessfully',
-      error: error instanceof Error ? error.message : 'Unknown error',
+      success: false,
+      error,
       stack: error instanceof Error ? error.stack : undefined,
     });
   }

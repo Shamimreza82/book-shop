@@ -36,7 +36,7 @@ const updateBookDB = async (id: string, data: IBook) => {
         inStock: data.inStock,
       },
     },
-    { new: true }
+    { new: true, timestamps: true }
   );
   return result;
 };

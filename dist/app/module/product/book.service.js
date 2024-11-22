@@ -40,7 +40,7 @@ const updateBookDB = (id, data) => __awaiter(void 0, void 0, void 0, function* (
             quantity: data.quantity,
             inStock: data.inStock,
         },
-    }, { new: true });
+    }, { new: true, timestamps: true });
     return result;
 });
 const deleteBookDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
