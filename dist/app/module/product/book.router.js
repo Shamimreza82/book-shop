@@ -8,7 +8,7 @@ const express_1 = __importDefault(require("express"));
 const book_controller_1 = require("./book.controller");
 const router = express_1.default.Router();
 router.get('/products/:productId', book_controller_1.bookController.getSingleBook);
-router.post('/create-product', book_controller_1.bookController.createBook);
+router.post('/products', book_controller_1.bookController.createBook);
 router.put('/products/:productId', book_controller_1.bookController.updateBook);
 router.delete('/products/:productId', book_controller_1.bookController.deleteBook);
 router.get('/products', book_controller_1.bookController.getAllBooks);

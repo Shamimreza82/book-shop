@@ -8,9 +8,9 @@ const app = express()
 
 app.use(express.json())
 
-app.use('/api/v1',  bookRouter)
+app.use('/api/',  bookRouter)
 
-app.use('/api/v1',  orderRouter)
+app.use('/api/',  orderRouter)
 
 app.get('/', async (req: Request, res: Response) => {
     console.log("Book Shop app in running");

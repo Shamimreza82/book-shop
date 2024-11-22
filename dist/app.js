@@ -17,8 +17,8 @@ const book_router_1 = require("./app/module/product/book.router");
 const order_router_1 = require("./app/module/order/order.router");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
-app.use('/api/v1', book_router_1.bookRouter);
-app.use('/api/v1', order_router_1.orderRouter);
+app.use('/api/', book_router_1.bookRouter);
+app.use('/api/', order_router_1.orderRouter);
 app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("Book Shop app in running");
     res.send({ message: "Book Shop app in running" });
