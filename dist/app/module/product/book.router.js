@@ -11,4 +11,5 @@ router.get('/products/:productId', book_controller_1.bookController.getSingleBoo
 router.post('/create-product', book_controller_1.bookController.createBook);
 router.put('/products/:productId', book_controller_1.bookController.updateBook);
 router.delete('/products/:productId', book_controller_1.bookController.deleteBook);
+router.get('/products', book_controller_1.bookController.getAllBooks);
 exports.bookRouter = router;

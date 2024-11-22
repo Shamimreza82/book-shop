@@ -7,5 +7,6 @@ router.get('/products/:productId', bookController.getSingleBook)
 router.post('/create-product', bookController.createBook)
 router.put('/products/:productId', bookController.updateBook)
 router.delete('/products/:productId', bookController.deleteBook)
+router.get('/products', bookController.getAllBooks)
 
 export const bookRouter = router 

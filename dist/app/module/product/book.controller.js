@@ -85,9 +85,28 @@ const deleteBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
 });
+const getAllBooks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { searchTerm } = req.query;
+        const result = yield book_service_1.bookService.getAllBooksDB(searchTerm);
+        res.status(200).json({
+            success: true,
+            message: 'Books retrieved successfully',
+            data: result,
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Books retrieved Unsuccessfully',
+            error,
+        });
+    }
+});
 exports.bookController = {
     createBook,
     getSingleBook,
     updateBook,
-    deleteBook
+    deleteBook,
+    getAllBooks
 };

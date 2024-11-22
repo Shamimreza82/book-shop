@@ -37,13 +37,13 @@ const totalRevenue = async (req: Request, res: Response) => {
 
     res.status(200).json({
       success: true,
-      message: 'Order Create Successfully',
+      message: 'Revenue calculated successfully',
       data: result,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Order Create Unsuccessfully',
+      message: 'Revenue calculated Unsuccessfully',
       error,
     });
   }

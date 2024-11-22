@@ -82,9 +82,33 @@ const deleteBook = async (req: Request, res: Response) => {
 };
 
 
+const getAllBooks = async (req: Request, res: Response) => {
+  try {
+    const { searchTerm } = req.query;
+    const result = await bookService.getAllBooksDB(searchTerm);
+
+    res.status(200).json({
+      success: true,
+      message: 'Books retrieved successfully',
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Books retrieved Unsuccessfully',
+      error,
+    });
+  }
+};
+
+
+
+
+
 export const bookController = {
     createBook, 
     getSingleBook,
     updateBook,
-    deleteBook
+    deleteBook,
+    getAllBooks
 }

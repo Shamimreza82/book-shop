@@ -6,8 +6,14 @@ const createBookBD = async (book: IBook) => {
   return result;
 };
 
-const getAllBooksDB = async (book: IBook) => {
-  const result = Book.create(book);
+const getAllBooksDB = async (searchTerm: string) => {
+  const result = Book.find({
+    $or: [
+      { category: { $regex: searchTerm, $options: 'i' } }, 
+      { title: { $regex: searchTerm, $options: 'i' } },
+      { author: { $regex: searchTerm, $options: 'i' } },
+    ],
+  });
   return result;
 };
 
@@ -16,28 +22,34 @@ const getSingleBooksDB = async (id: string) => {
   return result;
 };
 
-const updateBookDB = async (id: string,  data: IBook) => {
-  const result = Book.findByIdAndUpdate(id, {$set: {
-    title: data.title, 
-    author: data.author,
-    price: data.price,
-    category: data.category,
-    description: data.description,
-    quantity: data.quantity,
-    inStock: data.inStock,
-  }},{ new: true });
+const updateBookDB = async (id: string, data: IBook) => {
+  const result = Book.findByIdAndUpdate(
+    id,
+    {
+      $set: {
+        title: data.title,
+        author: data.author,
+        price: data.price,
+        category: data.category,
+        description: data.description,
+        quantity: data.quantity,
+        inStock: data.inStock,
+      },
+    },
+    { new: true }
+  );
   return result;
 };
 
 const deleteBookDB = async (id: string) => {
-    const result = Book.findByIdAndDelete(id);
-    return result;
-  };
+  const result = Book.findByIdAndDelete(id);
+  return result;
+};
 
 export const bookService = {
   createBookBD,
   getAllBooksDB,
   getSingleBooksDB,
   updateBookDB,
-  deleteBookDB
+  deleteBookDB,
 };

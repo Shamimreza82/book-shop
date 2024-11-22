@@ -15,8 +15,14 @@ const createBookBD = (book) => __awaiter(void 0, void 0, void 0, function* () {
     const result = book_model_1.Book.create(book);
     return result;
 });
-const getAllBooksDB = (book) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = book_model_1.Book.create(book);
+const getAllBooksDB = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = book_model_1.Book.find({
+        $or: [
+            { category: { $regex: searchTerm, $options: 'i' } },
+            { title: { $regex: searchTerm, $options: 'i' } },
+            { author: { $regex: searchTerm, $options: 'i' } },
+        ],
+    });
     return result;
 });
 const getSingleBooksDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -24,7 +30,8 @@ const getSingleBooksDB = (id) => __awaiter(void 0, void 0, void 0, function* () 
     return result;
 });
 const updateBookDB = (id, data) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = book_model_1.Book.findByIdAndUpdate(id, { $set: {
+    const result = book_model_1.Book.findByIdAndUpdate(id, {
+        $set: {
             title: data.title,
             author: data.author,
             price: data.price,
@@ -32,7 +39,8 @@ const updateBookDB = (id, data) => __awaiter(void 0, void 0, void 0, function* (
             description: data.description,
             quantity: data.quantity,
             inStock: data.inStock,
-        } }, { new: true });
+        },
+    }, { new: true });
     return result;
 });
 const deleteBookDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -44,5 +52,5 @@ exports.bookService = {
     getAllBooksDB,
     getSingleBooksDB,
     updateBookDB,
-    deleteBookDB
+    deleteBookDB,
 };

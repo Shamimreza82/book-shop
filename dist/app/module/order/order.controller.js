@@ -37,14 +37,14 @@ const totalRevenue = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const result = yield order_service_1.orderService.totalRevenueDB();
         res.status(200).json({
             success: true,
-            message: 'Order Create Successfully',
+            message: 'Revenue calculated successfully',
             data: result,
         });
     }
     catch (error) {
         res.status(500).json({
             success: false,
-            message: 'Order Create Unsuccessfully',
+            message: 'Revenue calculated Unsuccessfully',
             error,
         });
     }
