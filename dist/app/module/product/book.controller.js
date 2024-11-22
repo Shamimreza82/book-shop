@@ -62,7 +62,7 @@ const updateBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     catch (error) {
         res.status(500).json({
             success: false,
-            message: 'Book updated Unsuccessfully, Something went wrong ',
+            message: 'Book updated Unsuccessfully, Something went wrong',
             error,
         });
     }
@@ -70,7 +70,7 @@ const updateBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 const deleteBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const productId = req.params.productId;
-        const result = yield book_service_1.bookService.deleteBookDB(productId);
+        yield book_service_1.bookService.deleteBookDB(productId);
         res.status(200).json({
             success: true,
             message: 'Books Deleted successfully',

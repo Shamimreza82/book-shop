@@ -55,7 +55,7 @@ const updateBook = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Book updated Unsuccessfully, Something went wrong ',
+      message: 'Book updated Unsuccessfully, Something went wrong',
       error,
     });
   }
@@ -65,7 +65,7 @@ const updateBook = async (req: Request, res: Response) => {
 const deleteBook = async (req: Request, res: Response) => {
   try {
     const productId = req.params.productId;
-    const result = await bookService.deleteBookDB(productId);
+    await bookService.deleteBookDB(productId);
 
     res.status(200).json({
       success: true,

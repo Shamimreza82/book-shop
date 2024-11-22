@@ -1,6 +1,6 @@
 export type IOrder = {
     email: string; 
     product: string; 
-    quantity: string; 
+    quantity: number; 
     totalPrice: number; 
 }
