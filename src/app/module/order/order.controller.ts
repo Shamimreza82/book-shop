@@ -1,19 +1,21 @@
 import { Request, RequestHandler, Response } from 'express';
 import { orderService } from './order.service';
 import { Book } from '../product/book.model';
+import { Error } from 'mongoose';
 
+////// Create order
 
-
-////// Create order 
-
-const createOrder: RequestHandler = async (req: Request, res: Response): Promise<void> => {
+const createOrder: RequestHandler = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const order = req.body;
-    
+
     // Find the book by ID
     const book = await Book.findById(order.product);
     console.log(book);
-  
+
     // If book is not found
     if (!book) {
       res.status(404).json({
@@ -22,32 +24,33 @@ const createOrder: RequestHandler = async (req: Request, res: Response): Promise
       });
       return;
     }
-  
+
     // Check inventory
     if (book.quantity < order.quantity) {
-        res.status(400).json({
+      res.status(400).json({
         success: false,
         message: 'Insufficient stock available.',
-        stockAvailable: book.quantity
+        stockAvailable: book.quantity,
       });
       return;
     }
-  
+
     // reduces the quantity of the book in stock by the quantity of the order:
     book.quantity = book.quantity - order.quantity;
     if (book.quantity === 0) {
       book.inStock = false;
     }
-  
+
     await book.save();
 
     const result = await orderService.createOrderDB(order);
-    res.status(201).json({
-      success: true,
-      message: 'Order created successfully',
-      data: result,
-    });
-  
+
+    if (!result) {
+      res.status(500).json({
+        success: false,
+        message: 'Please provide a valid email address.',
+      });
+    }
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -56,13 +59,9 @@ const createOrder: RequestHandler = async (req: Request, res: Response): Promise
       stack: error instanceof Error ? error.stack : undefined,
     });
   }
-}
+};
 
-
-
-
-
-/////// total revenue count for all ordered products 
+/////// total revenue count for all ordered products
 
 const totalRevenue = async (req: Request, res: Response) => {
   try {

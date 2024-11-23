@@ -12,7 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.orderController = void 0;
 const order_service_1 = require("./order.service");
 const book_model_1 = require("../product/book.model");
-////// Create order 
+const mongoose_1 = require("mongoose");
+////// Create order
 const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const order = req.body;
@@ -32,7 +33,7 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             res.status(400).json({
                 success: false,
                 message: 'Insufficient stock available.',
-                stockAvailable: book.quantity
+                stockAvailable: book.quantity,
             });
             return;
         }
@@ -43,22 +44,23 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         }
         yield book.save();
         const result = yield order_service_1.orderService.createOrderDB(order);
-        res.status(201).json({
-            success: true,
-            message: 'Order created successfully',
-            data: result,
-        });
+        if (!result) {
+            res.status(500).json({
+                success: false,
+                message: 'Please provide a valid email address.',
+            });
+        }
     }
     catch (error) {
         res.status(500).json({
             success: false,
             message: 'Order creation failed',
             error,
-            stack: error instanceof Error ? error.stack : undefined,
+            stack: error instanceof mongoose_1.Error ? error.stack : undefined,
         });
     }
 });
-/////// total revenue count for all ordered products 
+/////// total revenue count for all ordered products
 const totalRevenue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield order_service_1.orderService.totalRevenueDB();
@@ -73,7 +75,7 @@ const totalRevenue = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             success: false,
             message: 'Revenue calculated Unsuccessfully',
             error,
-            stack: error instanceof Error ? error.stack : undefined,
+            stack: error instanceof mongoose_1.Error ? error.stack : undefined,
         });
     }
 });
