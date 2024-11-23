@@ -12,13 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.orderService = void 0;
 const order_model_1 = require("./order.model");
 const createOrderDB = (order) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const result = yield order_model_1.Order.create(order);
-        return result;
-    }
-    catch (error) {
-        console.log(error);
-    }
+    const result = yield order_model_1.Order.create(order);
+    return result;
 });
 const totalRevenueDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {

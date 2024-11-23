@@ -7,7 +7,6 @@ const orderSchema = new Schema<IOrder>(
       type: String,
       required: [true, 'Email is required.'],
       trim: true,
-      unique: true,
       lowercase: true,
       validate: {
         validator: function (value: string) {

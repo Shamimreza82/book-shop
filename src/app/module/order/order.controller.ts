@@ -1,20 +1,24 @@
 import { Request, RequestHandler, Response } from 'express';
 import { orderService } from './order.service';
 import { Book } from '../product/book.model';
-import { Error } from 'mongoose';
+import { Order } from './order.model';
+// import { Order } from './order.model';
 
 ////// Create order
-
-const createOrder: RequestHandler = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+const createOrder: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const order = req.body;
+    const orderData = req.body;
 
-    // Find the book by ID
-    const book = await Book.findById(order.product);
-    console.log(book);
+    const orderBD = await Order.findOne({ email: orderData.email });
+    if (orderBD && orderData.email === orderBD.email) {
+      res.status(404).json({
+        success: false,
+        message: 'email already exist',
+      });
+      return;
+    }
+
+    const book = await Book.findById(orderData.product);
 
     // If book is not found
     if (!book) {
@@ -26,7 +30,7 @@ const createOrder: RequestHandler = async (
     }
 
     // Check inventory
-    if (book.quantity < order.quantity) {
+    if (book.quantity < orderData.quantity) {
       res.status(400).json({
         success: false,
         message: 'Insufficient stock available.',
@@ -36,21 +40,21 @@ const createOrder: RequestHandler = async (
     }
 
     // reduces the quantity of the book in stock by the quantity of the order:
-    book.quantity = book.quantity - order.quantity;
+    book.quantity = book.quantity - orderData.quantity;
+
     if (book.quantity === 0) {
       book.inStock = false;
     }
 
     await book.save();
 
-    const result = await orderService.createOrderDB(order);
+    const result = await orderService.createOrderDB(orderData);
 
-    if (!result) {
-      res.status(500).json({
-        success: false,
-        message: 'Please provide a valid email address.',
-      });
-    }
+    res.status(200).json({
+      message: 'Order created successfully',
+      success: true,
+      data: result,
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -61,11 +65,20 @@ const createOrder: RequestHandler = async (
   }
 };
 
-/////// total revenue count for all ordered products
 
+
+
+/////// total revenue count for all ordered products
 const totalRevenue = async (req: Request, res: Response) => {
   try {
     const result = await orderService.totalRevenueDB();
+    if (!result) {
+      res.status(200).json({
+        success: false,
+        message: 'Order is empty',
+        data: result,
+      });
+    }
 
     res.status(200).json({
       success: true,
