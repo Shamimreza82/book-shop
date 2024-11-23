@@ -9,7 +9,7 @@ import { Book } from '../product/book.model';
 const createOrder: RequestHandler = async (req: Request, res: Response): Promise<void> => {
   try {
     const order = req.body;
-  
+    
     // Find the book by ID
     const book = await Book.findById(order.product);
     console.log(book);

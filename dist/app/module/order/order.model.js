@@ -10,7 +10,7 @@ const orderSchema = new mongoose_1.Schema({
         lowercase: true,
         validate: {
             validator: function (value) {
-                return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value);
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
             },
             message: 'Invalid email format.',
         },
