@@ -19,14 +19,18 @@ const totalRevenueDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield order_model_1.Order.aggregate([
             {
-                $group: { _id: 'totalPrice', totalRevinew: { $sum: '$totalPrice' } },
+                $project: {
+                    _id: 0,
+                    total: { $multiply: ["$quantity", "$totalPrice"] },
+                },
             },
+            { $group: { _id: "total", totalRevenue: { $sum: "$total" } } },
             {
                 $project: {
                     _id: 0,
-                    totalRevenue: '$totalRevinew',
-                },
-            },
+                    totalRevenue: 1
+                }
+            }
         ]);
         return result[0];
     }

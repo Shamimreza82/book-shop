@@ -13,7 +13,7 @@ const createOrder: RequestHandler = async (req: Request, res: Response) => {
     if (orderBD && orderData.email === orderBD.email) {
       res.status(404).json({
         success: false,
-        message: 'email already exist',
+        message: 'Email already exist, try anther email',
       });
       return;
     }

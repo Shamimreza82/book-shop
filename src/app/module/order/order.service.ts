@@ -10,15 +10,20 @@ const totalRevenueDB = async () => {
   try {
     const result = await Order.aggregate([
       {
-        $group: { _id: 'totalPrice', totalRevinew: { $sum: '$totalPrice' } },
+          $project: {
+              _id: 0,
+              total: { $multiply: ["$quantity", "$totalPrice"] },
+          },
+  
       },
+      { $group: { _id: "total", totalRevenue: { $sum: "$total" } } },
       {
-        $project: {
-          _id: 0,
-          totalRevenue: '$totalRevinew',
-        },
-      },
-    ]);
+          $project: {
+              _id: 0,
+              totalRevenue: 1
+          }
+      }
+  ]);
 
     return result[0];
   } catch (error) {

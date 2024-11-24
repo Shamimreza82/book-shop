@@ -22,7 +22,7 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         if (orderBD && orderData.email === orderBD.email) {
             res.status(404).json({
                 success: false,
-                message: 'email already exist',
+                message: 'Email already exist, try anther email',
             });
             return;
         }
